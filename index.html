@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lumina Project | Open Source Portfolio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Outfit:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #050505;
+            --primary: #ff2a5f;
+            --secondary: #00e5ff;
+            --text-main: #f0f0f0;
+            --text-muted: #a0a0a0;
+            --card-bg: rgba(255, 255, 255, 0.03);
+            --card-border: rgba(255, 255, 255, 0.08);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.6;
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at 15% 50%, rgba(255, 42, 95, 0.08), transparent 25%),
+                radial-gradient(circle at 85% 30%, rgba(0, 229, 255, 0.08), transparent 25%);
+            background-attachment: fixed;
+        }
+
+        header {
+            text-align: center;
+            padding: 100px 20px 60px;
+            position: relative;
+        }
+
+        h1 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 4rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 20px;
+            letter-spacing: -1px;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px 100px;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 30px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 24px;
+            padding: 40px;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--accent-color, var(--primary)), transparent);
+            transform: translateX(-100%);
+            transition: transform 0.6s ease;
+        }
+
+        .card:hover::before {
+            transform: translateX(100%);
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            border-color: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        .card-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+
+        .card h2 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+            color: #fff;
+        }
+
+        .card p {
+            color: var(--text-muted);
+            margin-bottom: 25px;
+            flex-grow: 1;
+            font-size: 0.95rem;
+        }
+
+        .tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 25px;
+        }
+
+        .tag {
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 4px 12px;
+            border-radius: 50px;
+            background: rgba(255, 255, 255, 0.05);
+            color: #ddd;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .card-link {
+            display: inline-block;
+            text-decoration: none;
+            color: var(--bg-color);
+            background: #fff;
+            padding: 10px 20px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            text-align: center;
+            align-self: flex-start;
+        }
+
+        .card:hover .card-link {
+            background: var(--accent-color, var(--primary));
+            color: #fff;
+            box-shadow: 0 0 20px var(--accent-color, var(--primary));
+        }
+
+        /* Accent Colors Setup for Hover & Borders */
+        .color-1 { --accent-color: #ff2a5f; }
+        .color-2 { --accent-color: #00e5ff; }
+        .color-3 { --accent-color: #aa00ff; }
+        .color-4 { --accent-color: #ffaa00; }
+        .color-5 { --accent-color: #00ffaa; }
+        .color-6 { --accent-color: #ff0055; }
+        .color-7 { --accent-color: #2a5fff; }
+        .color-8 { --accent-color: #e5ff00; }
+        .color-9 { --accent-color: #ff00aa; }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .animate-fade-in {
+            animation: fadeInUp 0.6s ease backwards;
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px;
+            color: var(--text-muted);
+            border-top: 1px solid var(--card-border);
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+
+    <header class="animate-fade-in">
+        <h1>Lumina Project.</h1>
+        <p class="subtitle">JKUniverse 생태계를 구동하는 프리미엄 오픈 소스 포트폴리오. <br> 퍼블릭으로 공개된 혁신적인 프로젝트들을 소개합니다.</p>
+    </header>
+
+    <div class="container">
+        
+        <!-- Lumina Studio -->
+        <div class="card color-1 animate-fade-in" style="animation-delay: 0.05s;">
+            <div class="card-icon">✨</div>
+            <h2>Lumina Studio</h2>
+            <div class="tags">
+                <span class="tag">JavaScript</span>
+                <span class="tag">Lumina Project</span>
+            </div>
+            <p>
+                Lumina 엔진 구성을 위한 시각적 스튜디오 인터페이스. 웹 상에서 복잡한 시스템과 AI 기능을 시뮬레이션하고 조작합니다.
+            </p>
+            <a href="https://github.com/encredible/lumina-studio" target="_blank" class="card-link">Explore Lumina Studio</a>
+        </div>
+
+        <!-- El Language -->
+        <div class="card color-2 animate-fade-in" style="animation-delay: 0.1s;">
+            <div class="card-icon">🧠</div>
+            <h2>El Language</h2>
+            <div class="tags">
+                <span class="tag">Python</span>
+                <span class="tag">Turing Complete</span>
+                <span class="tag">0101 Binary</span>
+            </div>
+            <p>
+                <strong>"말하면, 0101이 된다."</strong><br><br>
+                한국어 또는 영어 자연어 문장을 입력하면 순수 0과 1로만 이루어진 3비트 튜링 완전 프로그램(0101)으로 즉시 변환하고 실행하는 언어 체계입니다.
+            </p>
+            <a href="https://github.com/encredible/el-lang" target="_blank" class="card-link">Explore El Language</a>
+        </div>
+
+        <!-- OmniDrive -->
+        <div class="card color-3 animate-fade-in" style="animation-delay: 0.15s;">
+            <div class="card-icon">☁️</div>
+            <h2>OmniDrive</h2>
+            <div class="tags">
+                <span class="tag">HTML/JS</span>
+                <span class="tag">Virtual Storage</span>
+                <span class="tag">Dashboard</span>
+            </div>
+            <p>
+                로컬 스토리지, 클라우드, 워크스페이스를 하나의 통합된 가상 디스크로 마운트. 심볼릭 링크 관리, SMB 공유 및 직관적인 웹 대시보드로 기기 간 동기화를 지원하는 j1010red 생태계의 통합 스토리지입니다.
+            </p>
+            <a href="https://github.com/encredible/omnidrive" target="_blank" class="card-link">Explore OmniDrive</a>
+        </div>
+
+        <!-- Omni Search -->
+        <div class="card color-4 animate-fade-in" style="animation-delay: 0.2s;">
+            <div class="card-icon">🔍</div>
+            <h2>Omni Search</h2>
+            <div class="tags">
+                <span class="tag">JavaScript</span>
+                <span class="tag">Chrome Ext</span>
+                <span class="tag">Multi-Search</span>
+            </div>
+            <p>
+                구글, 네이버, 다음 등 여러 검색 엔진의 결과를 한 화면에 모아 동시에 비교할 수 있는 프리미엄 통합 검색 대시보드. 동적 서버 프록시로 iframe 보안 정책을 무력화합니다.
+            </p>
+            <a href="https://github.com/encredible/omnisearch" target="_blank" class="card-link">Explore Omni Search</a>
+        </div>
+
+        <!-- OmniCompute Fleet -->
+        <div class="card color-5 animate-fade-in" style="animation-delay: 0.25s;">
+            <div class="card-icon">⚡</div>
+            <h2>OmniCompute</h2>
+            <div class="tags">
+                <span class="tag">Shell</span>
+                <span class="tag">Parallel-Computing</span>
+                <span class="tag">CoreML/MLX</span>
+            </div>
+            <p>
+                개인 Apple Silicon(Mac Mini, MBP, iMac) + Android 기기 클러스터. 다수의 Mac 및 모바일 기기를 연동하여 병렬 MLX/CoreML/adb 연산을 수행하는 옴니컴퓨트 플릿 인프라스트럭처입니다.
+            </p>
+            <a href="https://github.com/encredible/omni-compute" target="_blank" class="card-link">Explore OmniCompute</a>
+        </div>
+
+        <!-- JWY Stablecoin -->
+        <div class="card color-6 animate-fade-in" style="animation-delay: 0.3s;">
+            <div class="card-icon">🪙</div>
+            <h2>JWY</h2>
+            <div class="tags">
+                <span class="tag">Python</span>
+                <span class="tag">Rust</span>
+                <span class="tag">Stablecoin</span>
+            </div>
+            <p>
+                <strong>JWY Stablecoin</strong><br>
+                한국 원화(KRW)에 1:1로 페깅되는 안정적인 디지털 자산. JKUniverse 내 네이티브 결제 기본 요소(Primitive)로 작동하며, 탄탄한 API 문서와 Python/Rust 구현체를 제공합니다.
+            </p>
+            <a href="https://github.com/encredible/jwy" target="_blank" class="card-link">Explore JWY</a>
+        </div>
+
+        <!-- Omni Wallet -->
+        <div class="card color-7 animate-fade-in" style="animation-delay: 0.35s;">
+            <div class="card-icon">💳</div>
+            <h2>Omni Wallet</h2>
+            <div class="tags">
+                <span class="tag">JavaScript</span>
+                <span class="tag">Web3</span>
+                <span class="tag">Dashboard</span>
+            </div>
+            <p>
+                다양한 체인을 통합 관리하는 프리미엄 Web3 멀티체인 지갑 대시보드 시뮬레이터. 세련된 인터페이스와 부드러운 상호작용으로 JWY와 기타 디지털 자산을 관리하는 환경을 구성합니다.
+            </p>
+            <a href="https://github.com/encredible/omni-wallet" target="_blank" class="card-link">Explore Omni Wallet</a>
+        </div>
+
+        <!-- email-messenger-mcp -->
+        <div class="card color-8 animate-fade-in" style="animation-delay: 0.4s;">
+            <div class="card-icon">📧</div>
+            <h2>Email Messenger MCP</h2>
+            <div class="tags">
+                <span class="tag">Python</span>
+                <span class="tag">MCP</span>
+            </div>
+            <p>
+                Model Context Protocol (MCP) 기반 이메일 메신저 인터페이스. LLM 및 AI 에이전트 환경에서 표준화된 메일 커뮤니케이션 기능을 안전하게 수행할 수 있도록 지원하는 Python 도구입니다.
+            </p>
+            <a href="https://github.com/encredible/email-messenger-mcp" target="_blank" class="card-link">Explore Email Messenger MCP</a>
+        </div>
+
+        <!-- mac-input-switcher -->
+        <div class="card color-9 animate-fade-in" style="animation-delay: 0.45s;">
+            <div class="card-icon">⌨️</div>
+            <h2>Mac Input Switcher</h2>
+            <div class="tags">
+                <span class="tag">Swift</span>
+                <span class="tag">macOS</span>
+                <span class="tag">Utility</span>
+            </div>
+            <p>
+                Swift로 작성된 경량 macOS 유틸리티. 시스템 입력 소스(키보드 언어)를 매끄럽고 신속하게 전환하여 멀티링구얼 개발 환경에서의 타이핑 및 명령어 입력 흐름을 개선합니다.
+            </p>
+            <a href="https://github.com/encredible/mac-input-switcher" target="_blank" class="card-link">Explore Mac Input Switcher</a>
+        </div>
+
+    </div>
+
+    <footer>
+        <p>&copy; 2026 Lumina Project. Part of the living JKUniverse.</p>
+    </footer>
+
+    <script>
+        document.querySelectorAll('.card').forEach(card => {
+            card.addEventListener('mousemove', e => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                
+                const rotateX = ((y - centerY) / centerY) * -5;
+                const rotateY = ((x - centerX) / centerX) * 5;
+                
+                card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-10px)`;
+            });
+
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) translateY(0)';
+            });
+        });
+    </script>
+</body>
+</html>
