@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -32,6 +32,36 @@
                 radial-gradient(circle at 15% 50%, rgba(255, 42, 95, 0.08), transparent 25%),
                 radial-gradient(circle at 85% 30%, rgba(0, 229, 255, 0.08), transparent 25%);
             background-attachment: fixed;
+        }
+
+        /* Language Toggle Logic */
+        body.lang-en .lang-ko { display: none !important; }
+        body.lang-ko .lang-en { display: none !important; }
+
+        .lang-toggle-wrapper {
+            position: absolute;
+            top: 30px;
+            right: 40px;
+            z-index: 100;
+        }
+
+        .lang-toggle {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #fff;
+            padding: 8px 16px;
+            border-radius: 50px;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .lang-toggle:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: scale(1.05);
         }
 
         header {
@@ -188,11 +218,16 @@
         }
     </style>
 </head>
-<body>
+<body class="lang-en">
+
+    <div class="lang-toggle-wrapper">
+        <button id="langToggle" class="lang-toggle">🇰🇷 한국어로 보기</button>
+    </div>
 
     <header class="animate-fade-in">
         <h1>Lumina Universe.</h1>
-        <p class="subtitle">JKUniverse 생태계를 구동하는 프리미엄 오픈 소스 포트폴리오. <br> 퍼블릭으로 공개된 혁신적인 프로젝트들을 소개합니다.</p>
+        <p class="subtitle lang-en">The premium open-source portfolio powering the JKUniverse ecosystem. <br> Showcasing innovative public projects.</p>
+        <p class="subtitle lang-ko">JKUniverse 생태계를 구동하는 프리미엄 오픈 소스 포트폴리오. <br> 퍼블릭으로 공개된 혁신적인 프로젝트들을 소개합니다.</p>
     </header>
 
     <div class="container">
@@ -205,10 +240,13 @@
                 <span class="tag">JavaScript</span>
                 <span class="tag">Lumina Project</span>
             </div>
-            <p>
+            <p class="lang-en">
+                Visual studio interface for Lumina Engine. Simulates and manipulates complex systems and AI features natively on the web.
+            </p>
+            <p class="lang-ko">
                 Lumina 엔진 구성을 위한 시각적 스튜디오 인터페이스. 웹 상에서 복잡한 시스템과 AI 기능을 시뮬레이션하고 조작합니다.
             </p>
-            <a href="https://github.com/encredible/lumina-studio" target="_blank" class="card-link">Explore Lumina Studio</a>
+            <a href="https://github.com/lumina-universe/lumina-studio" target="_blank" class="card-link">Explore</a>
         </div>
 
         <!-- El Language -->
@@ -220,11 +258,15 @@
                 <span class="tag">Turing Complete</span>
                 <span class="tag">0101 Binary</span>
             </div>
-            <p>
+            <p class="lang-en">
+                <strong>"Speak, and it becomes 0101."</strong><br><br>
+                An esoteric language system that instantly transpiles English or Korean natural language sentences into a pure 0101 3-bit Turing-complete binary program.
+            </p>
+            <p class="lang-ko">
                 <strong>"말하면, 0101이 된다."</strong><br><br>
                 한국어 또는 영어 자연어 문장을 입력하면 순수 0과 1로만 이루어진 3비트 튜링 완전 프로그램(0101)으로 즉시 변환하고 실행하는 언어 체계입니다.
             </p>
-            <a href="https://github.com/encredible/el-lang" target="_blank" class="card-link">Explore El Language</a>
+            <a href="https://github.com/lumina-universe/el-lang" target="_blank" class="card-link">Explore</a>
         </div>
 
         <!-- OmniDrive -->
@@ -236,10 +278,13 @@
                 <span class="tag">Virtual Storage</span>
                 <span class="tag">Dashboard</span>
             </div>
-            <p>
+            <p class="lang-en">
+                Mounts local storage, cloud drives, and workspaces into a single virtual disk. The unified storage of the ecosystem, supporting symlink management and seamless cross-device SMB sync.
+            </p>
+            <p class="lang-ko">
                 로컬 스토리지, 클라우드, 워크스페이스를 하나의 통합된 가상 디스크로 마운트. 심볼릭 링크 관리, SMB 공유 및 직관적인 웹 대시보드로 기기 간 동기화를 지원하는 j1010red 생태계의 통합 스토리지입니다.
             </p>
-            <a href="https://github.com/encredible/omnidrive" target="_blank" class="card-link">Explore OmniDrive</a>
+            <a href="https://github.com/lumina-universe/omnidrive" target="_blank" class="card-link">Explore</a>
         </div>
 
         <!-- Omni Search -->
@@ -251,10 +296,13 @@
                 <span class="tag">Chrome Ext</span>
                 <span class="tag">Multi-Search</span>
             </div>
-            <p>
+            <p class="lang-en">
+                A premium unified search dashboard that compares results from Google, Naver, Daum on a single screen. Neutralizes iframe security policies with a dynamic server proxy.
+            </p>
+            <p class="lang-ko">
                 구글, 네이버, 다음 등 여러 검색 엔진의 결과를 한 화면에 모아 동시에 비교할 수 있는 프리미엄 통합 검색 대시보드. 동적 서버 프록시로 iframe 보안 정책을 무력화합니다.
             </p>
-            <a href="https://github.com/encredible/omnisearch" target="_blank" class="card-link">Explore Omni Search</a>
+            <a href="https://github.com/lumina-universe/omnisearch" target="_blank" class="card-link">Explore</a>
         </div>
 
         <!-- OmniCompute Fleet -->
@@ -266,10 +314,13 @@
                 <span class="tag">Parallel-Computing</span>
                 <span class="tag">CoreML/MLX</span>
             </div>
-            <p>
+            <p class="lang-en">
+                A personal Apple Silicon (Mac Mini, MBP) + Android device cluster. The fleet infrastructure performs distributed parallel MLX/CoreML computations by linking multiple local devices via ADB.
+            </p>
+            <p class="lang-ko">
                 개인 Apple Silicon(Mac Mini, MBP, iMac) + Android 기기 클러스터. 다수의 Mac 및 모바일 기기를 연동하여 병렬 MLX/CoreML/adb 연산을 수행하는 옴니컴퓨트 플릿 인프라스트럭처입니다.
             </p>
-            <a href="https://github.com/encredible/omni-compute" target="_blank" class="card-link">Explore OmniCompute</a>
+            <a href="https://github.com/lumina-universe/omni-compute" target="_blank" class="card-link">Explore</a>
         </div>
 
         <!-- JWY Stablecoin -->
@@ -281,11 +332,15 @@
                 <span class="tag">Rust</span>
                 <span class="tag">Stablecoin</span>
             </div>
-            <p>
+            <p class="lang-en">
+                <strong>JWY Stablecoin</strong><br>
+                A stable digital asset pegged 1:1 to the Korean Won (KRW). Functions as the native payment primitive within JKUniverse, offering robust API docs and Python/Rust implementations.
+            </p>
+            <p class="lang-ko">
                 <strong>JWY Stablecoin</strong><br>
                 한국 원화(KRW)에 1:1로 페깅되는 안정적인 디지털 자산. JKUniverse 내 네이티브 결제 기본 요소(Primitive)로 작동하며, 탄탄한 API 문서와 Python/Rust 구현체를 제공합니다.
             </p>
-            <a href="https://github.com/encredible/jwy" target="_blank" class="card-link">Explore JWY</a>
+            <a href="https://github.com/lumina-universe/jwy" target="_blank" class="card-link">Explore</a>
         </div>
 
         <!-- Omni Wallet -->
@@ -297,10 +352,13 @@
                 <span class="tag">Web3</span>
                 <span class="tag">Dashboard</span>
             </div>
-            <p>
+            <p class="lang-en">
+                Premium Web3 multi-chain wallet dashboard simulator. Features a sleek interface and smooth interactions for managing JWY and other digital assets.
+            </p>
+            <p class="lang-ko">
                 다양한 체인을 통합 관리하는 프리미엄 Web3 멀티체인 지갑 대시보드 시뮬레이터. 세련된 인터페이스와 부드러운 상호작용으로 JWY와 기타 디지털 자산을 관리하는 환경을 구성합니다.
             </p>
-            <a href="https://github.com/encredible/omni-wallet" target="_blank" class="card-link">Explore Omni Wallet</a>
+            <a href="https://github.com/lumina-universe/omni-wallet" target="_blank" class="card-link">Explore</a>
         </div>
 
         <!-- email-messenger-mcp -->
@@ -311,10 +369,13 @@
                 <span class="tag">Python</span>
                 <span class="tag">MCP</span>
             </div>
-            <p>
+            <p class="lang-en">
+                Model Context Protocol (MCP) based email messenger interface. A Python tool that securely supports standardized email communication within LLM and AI agent environments.
+            </p>
+            <p class="lang-ko">
                 Model Context Protocol (MCP) 기반 이메일 메신저 인터페이스. LLM 및 AI 에이전트 환경에서 표준화된 메일 커뮤니케이션 기능을 안전하게 수행할 수 있도록 지원하는 Python 도구입니다.
             </p>
-            <a href="https://github.com/encredible/email-messenger-mcp" target="_blank" class="card-link">Explore Email Messenger MCP</a>
+            <a href="https://github.com/lumina-universe/email-messenger-mcp" target="_blank" class="card-link">Explore</a>
         </div>
 
         <!-- mac-input-switcher -->
@@ -326,19 +387,50 @@
                 <span class="tag">macOS</span>
                 <span class="tag">Utility</span>
             </div>
-            <p>
+            <p class="lang-en">
+                Lightweight macOS utility written in Swift. Smoothly and quickly switches system input sources (keyboard languages) to improve typing flow in multilingual development environments.
+            </p>
+            <p class="lang-ko">
                 Swift로 작성된 경량 macOS 유틸리티. 시스템 입력 소스(키보드 언어)를 매끄럽고 신속하게 전환하여 멀티링구얼 개발 환경에서의 타이핑 및 명령어 입력 흐름을 개선합니다.
             </p>
-            <a href="https://github.com/encredible/mac-input-switcher" target="_blank" class="card-link">Explore Mac Input Switcher</a>
+            <a href="https://github.com/lumina-universe/mac-input-switcher" target="_blank" class="card-link">Explore</a>
         </div>
 
     </div>
 
     <footer>
-        <p>&copy; 2026 Lumina Universe. Part of the living JKUniverse.</p>
+        <p class="lang-en">&copy; 2026 Lumina Universe. Part of the living JKUniverse.</p>
+        <p class="lang-ko">&copy; 2026 Lumina Universe. Part of the living JKUniverse.</p>
     </footer>
 
     <script>
+        // Language Toggle Logic
+        const toggleBtn = document.getElementById('langToggle');
+        const body = document.body;
+
+        // Check local storage for preference
+        const savedLang = localStorage.getItem('lumina_lang') || 'en';
+        body.className = `lang-${savedLang}`;
+        updateButtonText(savedLang);
+
+        toggleBtn.addEventListener('click', () => {
+            const isEnglish = body.classList.contains('lang-en');
+            const newLang = isEnglish ? 'ko' : 'en';
+            
+            body.className = `lang-${newLang}`;
+            localStorage.setItem('lumina_lang', newLang);
+            updateButtonText(newLang);
+        });
+
+        function updateButtonText(lang) {
+            if (lang === 'en') {
+                toggleBtn.innerText = '🇰🇷 한국어로 보기';
+            } else {
+                toggleBtn.innerText = '🇺🇸 View in English';
+            }
+        }
+
+        // Micro-interaction: Add slight parallax effect on cards based on mouse position
         document.querySelectorAll('.card').forEach(card => {
             card.addEventListener('mousemove', e => {
                 const rect = card.getBoundingClientRect();
