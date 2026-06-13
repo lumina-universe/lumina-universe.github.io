@@ -5,6 +5,17 @@
       {
         "appID": "N544VQZZ2U.com.j1010red.JKUniverse",
         "paths": ["*", "/"]
+      },
+      {
+        "appIDs": [
+          "N544VQZZ2U.com.j1010red.JKUniverse"
+        ],
+        "components": [
+          {
+            "/": "*",
+            "comment": "Matches any URL"
+          }
+        ]
       }
     ]
   }
