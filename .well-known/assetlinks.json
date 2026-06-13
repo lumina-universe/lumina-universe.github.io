@@ -1,0 +1,14 @@
+[
+  {
+    "relation": [
+      "delegate_permission/common.handle_all_urls"
+    ],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.example.jconsole",
+      "sha256_cert_fingerprints": [
+        "06:A6:AC:CB:01:5D:EC:CD:91:AE:F6:7A:FE:01:9A:D3:90:4C:D4:60:E5:90:B9:63:25:F3:8C:BA:0F:4E:A3:44"
+      ]
+    }
+  }
+]
