@@ -4,23 +4,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lumina Universe | Open Source Portfolio</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Outfit:wght@400;700;900&display=swap" rel="stylesheet">
+    <meta name="description" content="The premium open-source portfolio powering the JKUniverse ecosystem. Showcasing innovative public projects by j1010red.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;800&family=Outfit:wght@400;700;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-color: #050505;
+            --bg-color: #040408;
             --primary: #ff2a5f;
             --secondary: #00e5ff;
+            --accent3: #aa00ff;
             --text-main: #f0f0f0;
-            --text-muted: #a0a0a0;
-            --card-bg: rgba(255, 255, 255, 0.03);
-            --card-border: rgba(255, 255, 255, 0.08);
+            --text-muted: #9090a0;
+            --card-bg: rgba(255, 255, 255, 0.028);
+            --card-border: rgba(255, 255, 255, 0.07);
+            --card-hover-border: rgba(255, 255, 255, 0.18);
         }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        html { scroll-behavior: smooth; }
 
         body {
             font-family: 'Inter', sans-serif;
@@ -28,406 +30,815 @@
             color: var(--text-main);
             line-height: 1.6;
             overflow-x: hidden;
-            background-image: 
-                radial-gradient(circle at 15% 50%, rgba(255, 42, 95, 0.08), transparent 25%),
-                radial-gradient(circle at 85% 30%, rgba(0, 229, 255, 0.08), transparent 25%);
-            background-attachment: fixed;
         }
 
-        /* Language Toggle Logic */
+        /* Animated background */
+        .bg-canvas {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+            background:
+                radial-gradient(ellipse at 10% 40%, rgba(255, 42, 95, 0.07) 0%, transparent 50%),
+                radial-gradient(ellipse at 90% 20%, rgba(0, 229, 255, 0.07) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 90%, rgba(170, 0, 255, 0.05) 0%, transparent 50%);
+            animation: bgPulse 8s ease-in-out infinite alternate;
+        }
+
+        @keyframes bgPulse {
+            from { opacity: 0.8; }
+            to   { opacity: 1; }
+        }
+
+        /* Grid noise overlay */
+        .bg-grid {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+            background-image:
+                linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px);
+            background-size: 60px 60px;
+        }
+
+        /* Lang toggle */
         body.lang-en .lang-ko { display: none !important; }
         body.lang-ko .lang-en { display: none !important; }
 
         .lang-toggle-wrapper {
-            position: absolute;
-            top: 30px;
-            right: 40px;
-            z-index: 100;
+            position: fixed;
+            top: 24px;
+            right: 28px;
+            z-index: 200;
         }
 
         .lang-toggle {
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.15);
             color: #fff;
-            padding: 8px 16px;
+            padding: 8px 18px;
             border-radius: 50px;
             font-family: 'Inter', sans-serif;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             font-weight: 600;
             cursor: pointer;
-            backdrop-filter: blur(10px);
-            transition: all 0.3s ease;
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            transition: all 0.25s ease;
+            letter-spacing: 0.02em;
         }
 
         .lang-toggle:hover {
-            background: rgba(255, 255, 255, 0.2);
-            transform: scale(1.05);
+            background: rgba(255, 255, 255, 0.14);
+            border-color: rgba(255, 255, 255, 0.3);
+            transform: scale(1.04);
         }
 
+        /* Header */
         header {
-            text-align: center;
-            padding: 100px 20px 60px;
             position: relative;
+            z-index: 10;
+            text-align: center;
+            padding: 110px 20px 70px;
+        }
+
+        .hero-eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.78rem;
+            font-weight: 600;
+            color: var(--secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.14em;
+            margin-bottom: 22px;
+            padding: 6px 16px;
+            border: 1px solid rgba(0, 229, 255, 0.25);
+            border-radius: 50px;
+            background: rgba(0, 229, 255, 0.05);
+        }
+
+        .hero-eyebrow::before {
+            content: '';
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--secondary);
+            animation: blink 1.5s ease-in-out infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50%       { opacity: 0.2; }
         }
 
         h1 {
             font-family: 'Outfit', sans-serif;
-            font-size: 4rem;
+            font-size: clamp(2.8rem, 7vw, 5rem);
+            font-weight: 900;
+            background: linear-gradient(135deg, #ffffff 0%, var(--primary) 50%, var(--secondary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 22px;
+            letter-spacing: -2px;
+            line-height: 1.05;
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            max-width: 580px;
+            margin: 0 auto 40px;
+            font-weight: 400;
+            line-height: 1.7;
+        }
+
+        .stats-row {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-bottom: 10px;
+            flex-wrap: wrap;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-num {
+            font-family: 'Outfit', sans-serif;
+            font-size: 2rem;
             font-weight: 900;
             background: linear-gradient(135deg, var(--primary), var(--secondary));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            margin-bottom: 20px;
-            letter-spacing: -1px;
+            background-clip: text;
+            display: block;
+            line-height: 1;
         }
 
-        .subtitle {
-            font-size: 1.2rem;
+        .stat-label {
+            font-size: 0.78rem;
             color: var(--text-muted);
-            max-width: 600px;
-            margin: 0 auto;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-top: 4px;
         }
 
-        .container {
-            max-width: 1400px;
+        /* Section label */
+        .section-header {
+            position: relative;
+            z-index: 10;
+            max-width: 1440px;
             margin: 0 auto;
-            padding: 0 20px 100px;
+            padding: 0 24px 28px;
+        }
+
+        .section-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.72rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.16em;
+        }
+
+        /* Cards grid */
+        .container {
+            position: relative;
+            z-index: 10;
+            max-width: 1440px;
+            margin: 0 auto;
+            padding: 0 24px 120px;
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-            gap: 30px;
+            grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+            gap: 24px;
         }
 
         .card {
             background: var(--card-bg);
             border: 1px solid var(--card-border);
-            border-radius: 24px;
-            padding: 40px;
+            border-radius: 20px;
+            padding: 36px;
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transition: transform 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+                        border-color 0.25s ease,
+                        box-shadow 0.35s ease;
             position: relative;
             overflow: hidden;
             display: flex;
             flex-direction: column;
+            animation: fadeInUp 0.55s ease backwards;
         }
 
+        /* Shimmer line on top */
         .card::before {
             content: '';
             position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 2px;
+            top: 0; left: 0; right: 0;
+            height: 1.5px;
             background: linear-gradient(90deg, transparent, var(--accent-color, var(--primary)), transparent);
             transform: translateX(-100%);
-            transition: transform 0.6s ease;
+            transition: transform 0.55s ease;
         }
 
-        .card:hover::before {
-            transform: translateX(100%);
-        }
+        .card:hover::before { transform: translateX(100%); }
 
         .card:hover {
-            transform: translateY(-10px);
-            border-color: rgba(255, 255, 255, 0.2);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+            transform: translateY(-8px) scale(1.005);
+            border-color: var(--card-hover-border);
+            box-shadow:
+                0 20px 50px rgba(0,0,0,0.5),
+                0 0 30px rgba(var(--accent-rgb, 255,42,95), 0.05);
+        }
+
+        /* Featured card */
+        .card.featured {
+            grid-column: span 2;
+            background: linear-gradient(135deg, rgba(255,42,95,0.06) 0%, rgba(0,229,255,0.04) 100%);
+            border-color: rgba(255,255,255,0.1);
+        }
+
+        @media (max-width: 800px) {
+            .card.featured { grid-column: span 1; }
+        }
+
+        .card-header {
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+            margin-bottom: 18px;
         }
 
         .card-icon {
-            font-size: 3rem;
-            margin-bottom: 20px;
+            font-size: 2.4rem;
+            line-height: 1;
+            flex-shrink: 0;
         }
+
+        .card-title-block { flex: 1; }
 
         .card h2 {
             font-family: 'Outfit', sans-serif;
-            font-size: 1.8rem;
-            margin-bottom: 15px;
+            font-size: 1.55rem;
+            font-weight: 700;
             color: #fff;
+            margin-bottom: 4px;
+            line-height: 1.2;
+        }
+
+        .card-version {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
+            color: var(--accent-color, var(--primary));
+            font-weight: 600;
+            letter-spacing: 0.06em;
         }
 
         .card p {
             color: var(--text-muted);
-            margin-bottom: 25px;
+            margin-bottom: 22px;
             flex-grow: 1;
-            font-size: 0.95rem;
+            font-size: 0.93rem;
+            line-height: 1.7;
         }
+
+        .card p strong { color: #e0e0f0; font-weight: 600; }
 
         .tags {
             display: flex;
             flex-wrap: wrap;
-            gap: 8px;
-            margin-bottom: 25px;
+            gap: 7px;
+            margin-bottom: 24px;
         }
 
         .tag {
-            font-size: 0.75rem;
+            font-size: 0.72rem;
             font-weight: 600;
-            padding: 4px 12px;
+            padding: 3px 11px;
             border-radius: 50px;
             background: rgba(255, 255, 255, 0.05);
-            color: #ddd;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #bbb;
+            border: 1px solid rgba(255, 255, 255, 0.09);
+            font-family: 'JetBrains Mono', monospace;
+            letter-spacing: 0.03em;
+        }
+
+        .tag.highlight {
+            background: rgba(var(--accent-rgb, 255,42,95), 0.12);
+            color: var(--accent-color, var(--primary));
+            border-color: rgba(var(--accent-rgb, 255,42,95), 0.3);
         }
 
         .card-link {
-            display: inline-block;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
             text-decoration: none;
-            color: var(--bg-color);
+            color: #111;
             background: #fff;
-            padding: 10px 20px;
+            padding: 10px 22px;
             border-radius: 50px;
-            font-weight: 600;
-            font-size: 0.9rem;
-            transition: all 0.3s ease;
-            text-align: center;
+            font-weight: 700;
+            font-size: 0.85rem;
+            transition: all 0.25s ease;
             align-self: flex-start;
+            letter-spacing: 0.02em;
+        }
+
+        .card-link::after {
+            content: '→';
+            transition: transform 0.2s ease;
         }
 
         .card:hover .card-link {
             background: var(--accent-color, var(--primary));
             color: #fff;
-            box-shadow: 0 0 20px var(--accent-color, var(--primary));
+            box-shadow: 0 0 24px rgba(var(--accent-rgb,255,42,95), 0.5);
         }
 
-        /* Accent Colors Setup for Hover & Borders */
-        .color-1 { --accent-color: #ff2a5f; }
-        .color-2 { --accent-color: #00e5ff; }
-        .color-3 { --accent-color: #aa00ff; }
-        .color-4 { --accent-color: #ffaa00; }
-        .color-5 { --accent-color: #00ffaa; }
-        .color-6 { --accent-color: #ff0055; }
-        .color-7 { --accent-color: #2a5fff; }
-        .color-8 { --accent-color: #e5ff00; }
-        .color-9 { --accent-color: #ff00aa; }
+        .card:hover .card-link::after { transform: translateX(3px); }
+
+        /* Accent color system */
+        .color-1  { --accent-color:#ff2a5f;  --accent-rgb:255,42,95; }
+        .color-2  { --accent-color:#00e5ff;  --accent-rgb:0,229,255; }
+        .color-3  { --accent-color:#aa00ff;  --accent-rgb:170,0,255; }
+        .color-4  { --accent-color:#ffaa00;  --accent-rgb:255,170,0; }
+        .color-5  { --accent-color:#00ffaa;  --accent-rgb:0,255,170; }
+        .color-6  { --accent-color:#ff0055;  --accent-rgb:255,0,85; }
+        .color-7  { --accent-color:#2a5fff;  --accent-rgb:42,95,255; }
+        .color-8  { --accent-color:#e5ff00;  --accent-rgb:229,255,0; }
+        .color-9  { --accent-color:#ff00aa;  --accent-rgb:255,0,170; }
+        .color-10 { --accent-color:#00ffd5;  --accent-rgb:0,255,213; }
+        .color-11 { --accent-color:#ff8800;  --accent-rgb:255,136,0; }
+        .color-12 { --accent-color:#7b61ff;  --accent-rgb:123,97,255; }
+        .color-13 { --accent-color:#39ff14;  --accent-rgb:57,255,20; }
 
         @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
+            from { opacity: 0; transform: translateY(28px); }
+            to   { opacity: 1; transform: translateY(0); }
         }
 
-        .animate-fade-in {
-            animation: fadeInUp 0.6s ease backwards;
-        }
-
+        /* Footer */
         footer {
+            position: relative;
+            z-index: 10;
             text-align: center;
-            padding: 40px;
+            padding: 48px 20px;
             color: var(--text-muted);
             border-top: 1px solid var(--card-border);
-            font-size: 0.9rem;
+            font-size: 0.88rem;
+            line-height: 2;
+        }
+
+        footer a {
+            color: var(--secondary);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        footer a:hover { text-decoration: underline; }
+
+        @media (max-width: 640px) {
+            header { padding: 80px 16px 50px; }
+            .container { grid-template-columns: 1fr; padding: 0 16px 80px; }
+            .stats-row { gap: 24px; }
         }
     </style>
 </head>
 <body class="lang-en">
 
+    <div class="bg-canvas"></div>
+    <div class="bg-grid"></div>
+
     <div class="lang-toggle-wrapper">
         <button id="langToggle" class="lang-toggle">🇰🇷 한국어로 보기</button>
     </div>
 
-    <header class="animate-fade-in">
+    <header>
+        <div class="hero-eyebrow lang-en">Open Source · JKUniverse Ecosystem</div>
+        <div class="hero-eyebrow lang-ko">오픈 소스 · JKUniverse 생태계</div>
+
         <h1>Lumina Universe.</h1>
-        <p class="subtitle lang-en">The premium open-source portfolio powering the JKUniverse ecosystem. <br> Showcasing innovative public projects.</p>
-        <p class="subtitle lang-ko">JKUniverse 생태계를 구동하는 프리미엄 오픈 소스 포트폴리오. <br> 퍼블릭으로 공개된 혁신적인 프로젝트들을 소개합니다.</p>
+
+        <p class="subtitle lang-en">
+            The premium open-source portfolio powering the JKUniverse ecosystem.<br>
+            From low-level Assembly to AI-native Autograd — all built by j1010red.
+        </p>
+        <p class="subtitle lang-ko">
+            JKUniverse 생태계를 구동하는 프리미엄 오픈 소스 포트폴리오.<br>
+            어셈블리 저수준부터 AI 오토그래드까지 — j1010red가 직접 구현합니다.
+        </p>
+
+        <div class="stats-row">
+            <div class="stat-item">
+                <span class="stat-num">14</span>
+                <div class="stat-label lang-en">Projects</div>
+                <div class="stat-label lang-ko">프로젝트</div>
+            </div>
+            <div class="stat-item">
+                <span class="stat-num">6</span>
+                <div class="stat-label lang-en">Lang Targets</div>
+                <div class="stat-label lang-ko">언어 타겟</div>
+            </div>
+            <div class="stat-item">
+                <span class="stat-num">3</span>
+                <div class="stat-label lang-en">Runtimes</div>
+                <div class="stat-label lang-ko">인터프리터</div>
+            </div>
+            <div class="stat-item">
+                <span class="stat-num">∞</span>
+                <div class="stat-label lang-en">Vision</div>
+                <div class="stat-label lang-ko">비전</div>
+            </div>
+        </div>
     </header>
 
-    <div class="container">
-        
-        <!-- Lumina Studio -->
-        <div class="card color-1 animate-fade-in" style="animation-delay: 0.05s;">
-            <div class="card-icon">✨</div>
-            <h2>Lumina Studio</h2>
-            <div class="tags">
-                <span class="tag">JavaScript</span>
-                <span class="tag">Lumina Project</span>
-            </div>
-            <p class="lang-en">
-                Visual studio interface for Lumina Engine. Simulates and manipulates complex systems and AI features natively on the web.
-            </p>
-            <p class="lang-ko">
-                Lumina 엔진 구성을 위한 시각적 스튜디오 인터페이스. 웹 상에서 복잡한 시스템과 AI 기능을 시뮬레이션하고 조작합니다.
-            </p>
-            <a href="https://github.com/lumina-universe/lumina-studio" target="_blank" class="card-link">Explore</a>
-        </div>
+    <div class="section-header">
+        <div class="section-label lang-en">// public repositories</div>
+        <div class="section-label lang-ko">// 공개 레포지토리</div>
+    </div>
 
-        <!-- L Omni-Language -->
-        <div class="card color-2 animate-fade-in" style="animation-delay: 0.1s;">
-            <div class="card-icon">🧠</div>
-            <h2>L Omni-Language</h2>
+    <div class="container">
+
+        <!-- L Omni-Language (FEATURED) -->
+        <div class="card featured color-2 animate-fade-in" style="animation-delay:0.05s;">
+            <div class="card-header">
+                <div class="card-icon">🧠</div>
+                <div class="card-title-block">
+                    <h2>L Omni-Language</h2>
+                    <div class="card-version">v2.0 · Self-Hosting · AI-Native</div>
+                </div>
+            </div>
             <div class="tags">
-                <span class="tag">Meta-Language</span>
-                <span class="tag">Autograd & Tensor</span>
-                <span class="tag">Multi-Transpiler</span>
+                <span class="tag highlight">Meta-Language</span>
+                <span class="tag highlight">Autograd + Tensor</span>
+                <span class="tag highlight">Multi-Transpiler</span>
+                <span class="tag">C / Python / JS Runtimes</span>
+                <span class="tag">x86_64 Assembly</span>
+                <span class="tag">Turing Tape</span>
+                <span class="tag">AI Training IR</span>
             </div>
             <p class="lang-en">
-                <strong>"Universal Meta-Language bridging Logic & AI."</strong><br><br>
-                A comprehensive meta-language system (L-AST) linking low-level architectures (Assembly, Turing tape) with native AI mathematics (Autograd, Tensors) and transpiling back to any target language.
+                <strong>"Universal Meta-Language: from Turing Tape to AI Gradients."</strong><br><br>
+                A fully self-hosting meta-language (L-AST) that bridges low-level architectures
+                (x86_64 Assembly, Turing Machine Tape) with native AI mathematics (Autograd, Tensors, SGD).
+                Symmetric C / Python / JS interpreters. Multi-target transpiler compiles to 6 outputs.
+                <strong>Highlights:</strong> self_host.l (L parser written in L itself), ai_classifier.l
+                (50-epoch SGD, Loss → 0 in 25 steps, verified on all 3 runtimes).
             </p>
             <p class="lang-ko">
-                <strong>"논리와 AI를 잇는 범용 메타 언어."</strong><br><br>
-                로우 레벨 아키텍처(어셈블리, 튜링 테이프)와 고수준 AI 연산(자동 미분, 텐서)을 결합하고, 작성된 논리를 다른 모든 타겟 언어로 변환(Transpile)하는 메타 언어 시스템입니다.
+                <strong>"튜링 테이프부터 AI 그래디언트까지 — 범용 메타 언어."</strong><br><br>
+                저수준 아키텍처(x86_64 어셈블리, 튜링 머신 테이프)와 고수준 AI 연산(오토그래드, 텐서, SGD)을 잇는 완전 자기 호스팅 메타 언어입니다.
+                C / Python / JS 인터프리터 대칭 구현, 6개 타겟 멀티 트랜스파일러.
+                <strong>하이라이트:</strong> self_host.l (L 언어로 쓴 L 파서), ai_classifier.l (50회 SGD, 25회에 Loss 0 수렴, 3개 런타임 모두 검증 완료).
             </p>
             <a href="https://github.com/lumina-universe/j1010red/tree/main/l-lang" target="_blank" class="card-link">Explore</a>
         </div>
 
-        <!-- OmniDrive -->
-        <div class="card color-3 animate-fade-in" style="animation-delay: 0.15s;">
-            <div class="card-icon">☁️</div>
-            <h2>OmniDrive</h2>
+        <!-- Lumina Landing -->
+        <div class="card color-1 featured" style="animation-delay:0.08s;">
+            <div class="card-header">
+                <div class="card-icon">✨</div>
+                <div class="card-title-block">
+                    <h2>Lumina Landing</h2>
+                    <div class="card-version">v1.1 · Live</div>
+                </div>
+            </div>
             <div class="tags">
-                <span class="tag">HTML/JS</span>
-                <span class="tag">Virtual Storage</span>
-                <span class="tag">Dashboard</span>
+                <span class="tag highlight">Official Portal</span>
+                <span class="tag">JWY Economy</span>
+                <span class="tag">Bilingual KO/EN</span>
             </div>
             <p class="lang-en">
-                Mounts local storage, cloud drives, and workspaces into a single virtual disk. The unified storage of the ecosystem, supporting symlink management and seamless cross-device SMB sync.
+                Official Lumina Project ecosystem landing page with JWY reward simulator,
+                Omni stack overview, and live links to JKUniverse. Hosted at lumina.j1010red.com.
             </p>
             <p class="lang-ko">
-                로컬 스토리지, 클라우드, 워크스페이스를 하나의 통합된 가상 디스크로 마운트. 심볼릭 링크 관리, SMB 공유 및 직관적인 웹 대시보드로 기기 간 동기화를 지원하는 j1010red 생태계의 통합 스토리지입니다.
+                JWY 보상 시뮬레이터와 Omni 스택 개요를 담은 루미나 프로젝트 공식 랜딩 페이지. lumina.j1010red.com 에서 운영됩니다.
+            </p>
+            <a href="https://lumina.j1010red.com" target="_blank" class="card-link">Visit Live</a>
+        </div>
+
+        <!-- Lumina Studio -->
+        <div class="card color-1" style="animation-delay:0.1s;">
+            <div class="card-header">
+                <div class="card-icon">✨</div>
+                <div class="card-title-block">
+                    <h2>Lumina Studio</h2>
+                    <div class="card-version">v1.0</div>
+                </div>
+            </div>
+            <div class="tags">
+                <span class="tag">JavaScript</span>
+                <span class="tag">React</span>
+                <span class="tag">Lumina Project</span>
+            </div>
+            <p class="lang-en">
+                Visual studio interface for the Lumina Engine. Simulates and manipulates complex AI
+                systems and compute metrics natively in the browser. Real-time node visualization.
+            </p>
+            <p class="lang-ko">
+                Lumina 엔진용 시각적 스튜디오 인터페이스. 브라우저에서 복잡한 AI 시스템과 연산 지표를 시뮬레이션하고 실시간 노드를 시각화합니다.
+            </p>
+            <a href="https://github.com/lumina-universe/lumina-studio" target="_blank" class="card-link">Explore</a>
+        </div>
+
+        <!-- JKUniverse Portal -->
+        <div class="card color-9" style="animation-delay:0.15s;">
+            <div class="card-header">
+                <div class="card-icon">🌌</div>
+                <div class="card-title-block">
+                    <h2>JKUniverse Portal</h2>
+                    <div class="card-version">v1.0 · Live</div>
+                </div>
+            </div>
+            <div class="tags">
+                <span class="tag highlight">React + Vite</span>
+                <span class="tag">Cloudflare Pages</span>
+                <span class="tag">TypeScript</span>
+            </div>
+            <p class="lang-en">
+                The central gateway of the JKUniverse ecosystem. Integrates all Omni services,
+                compute nodes, social portals, crypto dashboards, and AI tools in one
+                premium unified web dashboard — deployed on Cloudflare Pages.
+            </p>
+            <p class="lang-ko">
+                JKUniverse 생태계의 중앙 포털. 모든 옴니 서비스, 연산 노드, 소셜 포털, 크립토 대시보드, AI 도구를 하나의 프리미엄 통합 웹 대시보드로 관리하며 Cloudflare Pages에 배포됩니다.
+            </p>
+            <a href="https://github.com/lumina-universe/j1010red" target="_blank" class="card-link">Explore</a>
+        </div>
+
+        <!-- OmniDrive -->
+        <div class="card color-3" style="animation-delay:0.2s;">
+            <div class="card-header">
+                <div class="card-icon">☁️</div>
+                <div class="card-title-block">
+                    <h2>OmniDrive</h2>
+                    <div class="card-version">v1.0</div>
+                </div>
+            </div>
+            <div class="tags">
+                <span class="tag">HTML / JS</span>
+                <span class="tag">Virtual Storage</span>
+                <span class="tag">SMB Sync</span>
+            </div>
+            <p class="lang-en">
+                Mounts local storage, cloud drives, and workspaces into a single virtual disk.
+                Unified ecosystem storage with symlink management, cross-device SMB sync, and
+                an intuitive web dashboard.
+            </p>
+            <p class="lang-ko">
+                로컬 스토리지, 클라우드, 워크스페이스를 하나의 통합 가상 디스크로 마운트. 심볼릭 링크 관리, SMB 공유, 직관적 웹 대시보드로 기기 간 동기화를 지원합니다.
             </p>
             <a href="https://github.com/lumina-universe/omnidrive" target="_blank" class="card-link">Explore</a>
         </div>
 
-        <!-- Omni Search -->
-        <div class="card color-4 animate-fade-in" style="animation-delay: 0.2s;">
-            <div class="card-icon">🔍</div>
-            <h2>Omni Search</h2>
-            <div class="tags">
-                <span class="tag">JavaScript</span>
-                <span class="tag">Chrome Ext</span>
-                <span class="tag">Multi-Search</span>
+        <!-- OmniCompute -->
+        <div class="card color-5" style="animation-delay:0.25s;">
+            <div class="card-header">
+                <div class="card-icon">⚡</div>
+                <div class="card-title-block">
+                    <h2>OmniCompute</h2>
+                    <div class="card-version">v1.0 · Fleet</div>
+                </div>
             </div>
-            <p class="lang-en">
-                A premium unified search dashboard that compares results from Google, Naver, Daum on a single screen. Neutralizes iframe security policies with a dynamic server proxy.
-            </p>
-            <p class="lang-ko">
-                구글, 네이버, 다음 등 여러 검색 엔진의 결과를 한 화면에 모아 동시에 비교할 수 있는 프리미엄 통합 검색 대시보드. 동적 서버 프록시로 iframe 보안 정책을 무력화합니다.
-            </p>
-            <a href="https://github.com/lumina-universe/omnisearch" target="_blank" class="card-link">Explore</a>
-        </div>
-
-        <!-- OmniCompute Fleet -->
-        <div class="card color-5 animate-fade-in" style="animation-delay: 0.25s;">
-            <div class="card-icon">⚡</div>
-            <h2>OmniCompute</h2>
             <div class="tags">
                 <span class="tag">Shell</span>
-                <span class="tag">Parallel-Computing</span>
-                <span class="tag">CoreML/MLX</span>
+                <span class="tag">Parallel Computing</span>
+                <span class="tag">CoreML / MLX</span>
+                <span class="tag">ADB</span>
             </div>
             <p class="lang-en">
-                A personal Apple Silicon (Mac Mini, MBP) + Android device cluster. The fleet infrastructure performs distributed parallel MLX/CoreML computations by linking multiple local devices via ADB.
+                Personal Apple Silicon (Mac Mini, MBP) + Android device cluster. Distributed
+                parallel MLX/CoreML computations across multiple local devices via ADB — no cloud fees.
             </p>
             <p class="lang-ko">
-                개인 Apple Silicon(Mac Mini, MBP, iMac) + Android 기기 클러스터. 다수의 Mac 및 모바일 기기를 연동하여 병렬 MLX/CoreML/adb 연산을 수행하는 옴니컴퓨트 플릿 인프라스트럭처입니다.
+                개인 Apple Silicon(Mac Mini, MBP) + Android 기기 클러스터. ADB를 통해 여러 로컬 기기에서 병렬 MLX/CoreML 연산을 수행합니다 — 클라우드 비용 없음.
             </p>
             <a href="https://github.com/lumina-universe/omni-compute" target="_blank" class="card-link">Explore</a>
         </div>
 
+        <!-- Omni Search -->
+        <div class="card color-4" style="animation-delay:0.3s;">
+            <div class="card-header">
+                <div class="card-icon">🔍</div>
+                <div class="card-title-block">
+                    <h2>Omni Search</h2>
+                    <div class="card-version">v1.0</div>
+                </div>
+            </div>
+            <div class="tags">
+                <span class="tag">JavaScript</span>
+                <span class="tag">Chrome Extension</span>
+                <span class="tag">Multi-Search</span>
+            </div>
+            <p class="lang-en">
+                Unified search dashboard comparing results from Google, Naver, and Daum on a single screen.
+                Neutralizes iframe security policies with a dynamic server proxy.
+            </p>
+            <p class="lang-ko">
+                구글, 네이버, 다음 결과를 한 화면에 동시에 비교하는 통합 검색 대시보드. 동적 서버 프록시로 iframe 보안 정책을 무력화합니다.
+            </p>
+            <a href="https://github.com/lumina-universe/omnisearch" target="_blank" class="card-link">Explore</a>
+        </div>
+
         <!-- JWY Stablecoin -->
-        <div class="card color-6 animate-fade-in" style="animation-delay: 0.3s;">
-            <div class="card-icon">🪙</div>
-            <h2>JWY</h2>
+        <div class="card color-6" style="animation-delay:0.35s;">
+            <div class="card-header">
+                <div class="card-icon">🪙</div>
+                <div class="card-title-block">
+                    <h2>JWY Stablecoin</h2>
+                    <div class="card-version">KRW-pegged</div>
+                </div>
+            </div>
             <div class="tags">
                 <span class="tag">Python</span>
                 <span class="tag">Rust</span>
                 <span class="tag">Stablecoin</span>
+                <span class="tag">Web3</span>
             </div>
             <p class="lang-en">
-                <strong>JWY Stablecoin</strong><br>
-                A stable digital asset pegged 1:1 to the Korean Won (KRW). Functions as the native payment primitive within JKUniverse, offering robust API docs and Python/Rust implementations.
+                A stable digital asset pegged 1:1 to the Korean Won (KRW). Native payment
+                primitive within JKUniverse, with robust API docs and Python/Rust implementations.
             </p>
             <p class="lang-ko">
-                <strong>JWY Stablecoin</strong><br>
-                한국 원화(KRW)에 1:1로 페깅되는 안정적인 디지털 자산. JKUniverse 내 네이티브 결제 기본 요소(Primitive)로 작동하며, 탄탄한 API 문서와 Python/Rust 구현체를 제공합니다.
+                한국 원화(KRW)에 1:1로 페깅되는 안정적인 디지털 자산. JKUniverse 내 네이티브 결제 기본 요소로 Python/Rust 구현체와 탄탄한 API 문서를 제공합니다.
             </p>
             <a href="https://github.com/lumina-universe/jwy" target="_blank" class="card-link">Explore</a>
         </div>
 
         <!-- Omni Wallet -->
-        <div class="card color-7 animate-fade-in" style="animation-delay: 0.35s;">
-            <div class="card-icon">💳</div>
-            <h2>Omni Wallet</h2>
+        <div class="card color-7" style="animation-delay:0.4s;">
+            <div class="card-header">
+                <div class="card-icon">💳</div>
+                <div class="card-title-block">
+                    <h2>Omni Wallet</h2>
+                    <div class="card-version">v1.0</div>
+                </div>
+            </div>
             <div class="tags">
                 <span class="tag">JavaScript</span>
                 <span class="tag">Web3</span>
-                <span class="tag">Dashboard</span>
+                <span class="tag">Multi-chain</span>
             </div>
             <p class="lang-en">
-                Premium Web3 multi-chain wallet dashboard simulator. Features a sleek interface and smooth interactions for managing JWY and other digital assets.
+                Premium Web3 multi-chain wallet dashboard simulator. Sleek interface for managing
+                JWY and other digital assets across chains.
             </p>
             <p class="lang-ko">
-                다양한 체인을 통합 관리하는 프리미엄 Web3 멀티체인 지갑 대시보드 시뮬레이터. 세련된 인터페이스와 부드러운 상호작용으로 JWY와 기타 디지털 자산을 관리하는 환경을 구성합니다.
+                다양한 체인을 통합 관리하는 프리미엄 Web3 멀티체인 지갑 대시보드 시뮬레이터. JWY 및 기타 디지털 자산을 세련된 인터페이스로 관리합니다.
             </p>
             <a href="https://github.com/lumina-universe/omni-wallet" target="_blank" class="card-link">Explore</a>
         </div>
 
-        <!-- email-messenger-mcp -->
-        <div class="card color-8 animate-fade-in" style="animation-delay: 0.4s;">
-            <div class="card-icon">📧</div>
-            <h2>Email Messenger MCP</h2>
+        <!-- Email Messenger MCP -->
+        <div class="card color-8" style="animation-delay:0.45s;">
+            <div class="card-header">
+                <div class="card-icon">📧</div>
+                <div class="card-title-block">
+                    <h2>Email Messenger MCP</h2>
+                    <div class="card-version">MCP Protocol</div>
+                </div>
+            </div>
             <div class="tags">
                 <span class="tag">Python</span>
                 <span class="tag">MCP</span>
+                <span class="tag">LLM Tools</span>
             </div>
             <p class="lang-en">
-                Model Context Protocol (MCP) based email messenger interface. A Python tool that securely supports standardized email communication within LLM and AI agent environments.
+                Model Context Protocol (MCP) based email messenger. Securely enables standardized
+                email communication within LLM and AI agent environments.
             </p>
             <p class="lang-ko">
-                Model Context Protocol (MCP) 기반 이메일 메신저 인터페이스. LLM 및 AI 에이전트 환경에서 표준화된 메일 커뮤니케이션 기능을 안전하게 수행할 수 있도록 지원하는 Python 도구입니다.
+                MCP 기반 이메일 메신저. LLM 및 AI 에이전트 환경에서 표준화된 메일 커뮤니케이션을 안전하게 수행합니다.
             </p>
             <a href="https://github.com/lumina-universe/email-messenger-mcp" target="_blank" class="card-link">Explore</a>
         </div>
 
-        <!-- mac-input-switcher -->
-        <div class="card color-9 animate-fade-in" style="animation-delay: 0.45s;">
-            <div class="card-icon">⌨️</div>
-            <h2>Mac Input Switcher</h2>
+        <!-- Mac Input Switcher -->
+        <div class="card color-10" style="animation-delay:0.5s;">
+            <div class="card-header">
+                <div class="card-icon">⌨️</div>
+                <div class="card-title-block">
+                    <h2>Mac Input Switcher</h2>
+                    <div class="card-version">Swift · macOS</div>
+                </div>
+            </div>
             <div class="tags">
                 <span class="tag">Swift</span>
                 <span class="tag">macOS</span>
                 <span class="tag">Utility</span>
             </div>
             <p class="lang-en">
-                Lightweight macOS utility written in Swift. Smoothly and quickly switches system input sources (keyboard languages) to improve typing flow in multilingual development environments.
+                Lightweight Swift macOS utility. Instantly switches system input sources (keyboard languages)
+                for a smooth multilingual development workflow.
             </p>
             <p class="lang-ko">
-                Swift로 작성된 경량 macOS 유틸리티. 시스템 입력 소스(키보드 언어)를 매끄럽고 신속하게 전환하여 멀티링구얼 개발 환경에서의 타이핑 및 명령어 입력 흐름을 개선합니다.
+                경량 Swift macOS 유틸리티. 멀티링구얼 개발 환경에서 시스템 입력 소스를 즉시 전환하여 타이핑 흐름을 개선합니다.
             </p>
             <a href="https://github.com/lumina-universe/mac-input-switcher" target="_blank" class="card-link">Explore</a>
         </div>
 
-        <!-- JKUniverse Portal -->
-        <div class="card color-1 animate-fade-in" style="animation-delay: 0.5s;">
-            <div class="card-icon">🌌</div>
-            <h2>JKUniverse Portal</h2>
+        <!-- Lumina Core -->
+        <div class="card color-3" style="animation-delay:0.55s;">
+            <div class="card-header">
+                <div class="card-icon">🔮</div>
+                <div class="card-title-block">
+                    <h2>Lumina Core</h2>
+                    <div class="card-version">Rust · Go · ZK</div>
+                </div>
+            </div>
             <div class="tags">
-                <span class="tag">React</span>
-                <span class="tag">Vite</span>
-                <span class="tag">Cloudflare Pages</span>
+                <span class="tag">Rust</span>
+                <span class="tag">Go</span>
+                <span class="tag">ZK-SNARKs</span>
             </div>
             <p class="lang-en">
-                The central gateway of the JKUniverse ecosystem. Integrates and manages all Omni services, compute nodes, and user identity settings in a premium unified web dashboard.
+                The cryptographic security and parallel validation core of Lumina. Implements
+                zero-knowledge proof verification and high-performance Rust state machines.
             </p>
             <p class="lang-ko">
-                JKUniverse 생태계의 중앙 포털 게이트웨이. 모든 옴니(Omni) 서비스, 연산 노드 및 개인 설정을 단 하나의 프리미엄 통합 웹 대시보드에서 관리합니다.
+                Lumina 생태계의 암호학적 보안 및 병렬 검증 코어. 영지식 증명(ZK-SNARKs) 검증 알고리즘과 초고성능 Rust 상태 머신을 담당합니다.
             </p>
             <a href="https://github.com/lumina-universe/j1010red" target="_blank" class="card-link">Explore</a>
         </div>
 
-        <!-- Lumina Core -->
-        <div class="card color-3 animate-fade-in" style="animation-delay: 0.55s;">
-            <div class="card-icon">🔮</div>
-            <h2>Lumina Core</h2>
+        <!-- J-Console -->
+        <div class="card color-11" style="animation-delay:0.6s;">
+            <div class="card-header">
+                <div class="card-icon">🖥️</div>
+                <div class="card-title-block">
+                    <h2>J-Console</h2>
+                    <div class="card-version">Terminal · Dashboard</div>
+                </div>
+            </div>
             <div class="tags">
-                <span class="tag">Rust</span>
-                <span class="tag">Go</span>
-                <span class="tag">ZK-Snarks</span>
+                <span class="tag">React</span>
+                <span class="tag">TypeScript</span>
+                <span class="tag">Terminal UI</span>
             </div>
             <p class="lang-en">
-                The cryptographic security and parallel validation core of Lumina. Implements zero-knowledge proof verification and high-performance Rust state machines.
+                An advanced terminal-style dashboard for the JKUniverse ecosystem.
+                Real-time system metrics, command execution, and live service monitoring
+                in a cyberpunk-themed console interface.
             </p>
             <p class="lang-ko">
-                Lumina 생태계의 암호학적 보안 및 병렬 검증 코어. 영지식 증명(ZK-SNARKs) 검증 알고리즘과 초고성능 Rust 상태 머신 인프라를 담당합니다.
+                JKUniverse 생태계용 고급 터미널 스타일 대시보드. 실시간 시스템 메트릭, 명령 실행, 라이브 서비스 모니터링을 사이버펑크 테마 콘솔 인터페이스로 제공합니다.
+            </p>
+            <a href="https://github.com/lumina-universe/j1010red" target="_blank" class="card-link">Explore</a>
+        </div>
+
+        <!-- OmniMessenger -->
+        <div class="card color-12" style="animation-delay:0.65s;">
+            <div class="card-header">
+                <div class="card-icon">💬</div>
+                <div class="card-title-block">
+                    <h2>Omni Messenger</h2>
+                    <div class="card-version">Real-time · E2E</div>
+                </div>
+            </div>
+            <div class="tags">
+                <span class="tag">WebSocket</span>
+                <span class="tag">React</span>
+                <span class="tag">Real-time</span>
+            </div>
+            <p class="lang-en">
+                Encrypted real-time messaging built into the JKUniverse ecosystem.
+                End-to-end communication layer powering Omni-level secure interactions
+                across all JKUniverse services.
+            </p>
+            <p class="lang-ko">
+                JKUniverse 생태계에 내장된 암호화 실시간 메시징. 모든 JKUniverse 서비스에서 옴니 수준 보안 상호작용을 구동하는 E2E 통신 레이어입니다.
+            </p>
+            <a href="https://github.com/lumina-universe/j1010red" target="_blank" class="card-link">Explore</a>
+        </div>
+
+        <!-- Omni Automator -->
+        <div class="card color-13" style="animation-delay:0.7s;">
+            <div class="card-header">
+                <div class="card-icon">🤖</div>
+                <div class="card-title-block">
+                    <h2>Omni Automator</h2>
+                    <div class="card-version">AI Agent · Workflow</div>
+                </div>
+            </div>
+            <div class="tags">
+                <span class="tag highlight">AI Agent</span>
+                <span class="tag">TypeScript</span>
+                <span class="tag">Automation</span>
+            </div>
+            <p class="lang-en">
+                AI-powered workflow automation engine for the JKUniverse ecosystem.
+                Orchestrates tasks across Omni services, manages deployment pipelines,
+                and coordinates multi-agent operations autonomously.
+            </p>
+            <p class="lang-ko">
+                JKUniverse 생태계용 AI 기반 워크플로우 자동화 엔진. 옴니 서비스 전반의 작업을 조율하고, 배포 파이프라인 관리 및 멀티 에이전트 운영을 자율적으로 수행합니다.
             </p>
             <a href="https://github.com/lumina-universe/j1010red" target="_blank" class="card-link">Explore</a>
         </div>
@@ -435,16 +846,24 @@
     </div>
 
     <footer>
-        <p class="lang-en">&copy; 2026 Lumina Universe. Part of the living JKUniverse.</p>
-        <p class="lang-ko">&copy; 2026 Lumina Universe. Part of the living JKUniverse.</p>
+        <p class="lang-en">
+            &copy; 2026 <a href="https://github.com/lumina-universe" target="_blank">Lumina Universe</a> &middot;
+            Built by <a href="https://github.com/j1010red" target="_blank">j1010red</a> &middot;
+            <a href="https://lumina.j1010red.com" target="_blank">lumina.j1010red.com</a> &middot;
+            <a href="https://jkuniverse.j1010red.com" target="_blank">jkuniverse.j1010red.com</a>
+        </p>
+        <p class="lang-ko">
+            &copy; 2026 <a href="https://github.com/lumina-universe" target="_blank">Lumina Universe</a> &middot;
+            <a href="https://github.com/j1010red" target="_blank">j1010red</a> 제작 &middot;
+            <a href="https://lumina.j1010red.com" target="_blank">lumina.j1010red.com</a> &middot;
+            <a href="https://jkuniverse.j1010red.com" target="_blank">jkuniverse.j1010red.com</a>
+        </p>
     </footer>
 
     <script>
-        // Language Toggle Logic
         const toggleBtn = document.getElementById('langToggle');
         const body = document.body;
 
-        // Check local storage for preference
         const savedLang = localStorage.getItem('lumina_lang') || 'en';
         body.className = `lang-${savedLang}`;
         updateButtonText(savedLang);
@@ -452,41 +871,45 @@
         toggleBtn.addEventListener('click', () => {
             const isEnglish = body.classList.contains('lang-en');
             const newLang = isEnglish ? 'ko' : 'en';
-            
             body.className = `lang-${newLang}`;
             localStorage.setItem('lumina_lang', newLang);
             updateButtonText(newLang);
         });
 
         function updateButtonText(lang) {
-            if (lang === 'en') {
-                toggleBtn.innerText = '🇰🇷 한국어로 보기';
-            } else {
-                toggleBtn.innerText = '🇺🇸 View in English';
-            }
+            toggleBtn.innerText = lang === 'en' ? '🇰🇷 한국어로 보기' : '🇺🇸 View in English';
         }
 
-        // Micro-interaction: Add slight parallax effect on cards based on mouse position
+        // 3D tilt on cards
         document.querySelectorAll('.card').forEach(card => {
             card.addEventListener('mousemove', e => {
                 const rect = card.getBoundingClientRect();
                 const x = e.clientX - rect.left;
                 const y = e.clientY - rect.top;
-                
-                const centerX = rect.width / 2;
-                const centerY = rect.height / 2;
-                
-                const rotateX = ((y - centerY) / centerY) * -5;
-                const rotateY = ((x - centerX) / centerX) * 5;
-                
-                card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-10px)`;
+                const cx = rect.width / 2;
+                const cy = rect.height / 2;
+                const rotX = ((y - cy) / cy) * -4;
+                const rotY = ((x - cx) / cx) * 4;
+                card.style.transform = `perspective(1000px) rotateX(${rotX}deg) rotateY(${rotY}deg) translateY(-8px)`;
             });
-
             card.addEventListener('mouseleave', () => {
                 card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) translateY(0)';
             });
         });
+
+        // Fade-in on scroll
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(e => {
+                if (e.isIntersecting) {
+                    e.target.style.animationPlayState = 'running';
+                }
+            });
+        }, { threshold: 0.1 });
+        document.querySelectorAll('.card').forEach(c => {
+            c.style.animationPlayState = 'paused';
+            observer.observe(c);
+        });
     </script>
 </body>
 </html>
-<!-- cache bust: 2026-06-13_02 -->
+<!-- cache bust: 2026-06-23_01 -->
