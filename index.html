@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lumina Universe | Open Source Portfolio</title>
-    <meta name="description" content="The premium open-source portfolio powering the JKUniverse ecosystem. Showcasing innovative public projects by j1010red.">
+    <title>루미나 유니버스 | Lumina Universe — 오픈소스 포트폴리오</title>
+    <meta name="description" content="JKUniverse 생태계를 구동하는 루미나 유니버스 오픈소스 포트폴리오. j1010red의 공개 프로젝트 모음.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;800&family=Outfit:wght@400;700;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
     <style>
@@ -410,20 +410,23 @@
         }
     </style>
 </head>
-<body class="lang-en">
+<body class="lang-ko">
 
     <div class="bg-canvas"></div>
     <div class="bg-grid"></div>
 
     <div class="lang-toggle-wrapper">
-        <button id="langToggle" class="lang-toggle">🇰🇷 한국어로 보기</button>
+        <button id="langToggle" class="lang-toggle">🇺🇸 View in English</button>
     </div>
 
     <header>
         <div class="hero-eyebrow lang-en">Open Source · JKUniverse Ecosystem</div>
         <div class="hero-eyebrow lang-ko">오픈 소스 · JKUniverse 생태계</div>
 
-        <h1>Lumina Universe.</h1>
+        <h1>
+            <span class="lang-ko">루미나 유니버스.</span>
+            <span class="lang-en">Lumina Universe.</span>
+        </h1>
 
         <p class="subtitle lang-en">
             The premium open-source portfolio powering the JKUniverse ecosystem.<br>
@@ -864,13 +867,15 @@
         const toggleBtn = document.getElementById('langToggle');
         const body = document.body;
 
-        const savedLang = localStorage.getItem('lumina_lang') || 'en';
+        const savedLang = localStorage.getItem('lumina_lang') || 'ko';
+        document.documentElement.lang = savedLang;
         body.className = `lang-${savedLang}`;
         updateButtonText(savedLang);
 
         toggleBtn.addEventListener('click', () => {
             const isEnglish = body.classList.contains('lang-en');
             const newLang = isEnglish ? 'ko' : 'en';
+            document.documentElement.lang = newLang;
             body.className = `lang-${newLang}`;
             localStorage.setItem('lumina_lang', newLang);
             updateButtonText(newLang);
@@ -912,4 +917,4 @@
     </script>
 </body>
 </html>
-<!-- cache bust: 2026-06-23_01 -->
+<!-- cache bust: 2026-06-23_ko_default -->
